@@ -1,0 +1,40 @@
+{
+  "name": "trillium",
+  "version": "1.0.0",
+  "description": "cli app that displays which cans are available at Trillium Brewery locations",
+  "engines": {
+    "node": ">=6.9"
+  },
+  "main": "./bin/index.js",
+  "bin": {
+    "trillium": "./bin/index.js"
+  },
+  "scripts": {
+    "lint": "eslint . && echo \"eslint: no lint errors found\" || true",
+    "start": "node ./bin/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "cli-table2": "^0.2.0",
+    "lodash": "^4.17.4",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okize/trillium.git"
+  },
+  "bugs": "https://github.com/okize/trillium/issues",
+  "homepage": "https://github.com/okize/trillium/",
+  "author": {
+    "name": "Morgan Wigmanich",
+    "email": "okize123@gmail.com",
+    "url": "https://github.com/okize"
+  },
+  "license": "MIT"
+}
