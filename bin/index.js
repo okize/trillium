@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const _ = require('lodash');
 const request = require('request');
 const cheerio = require('cheerio');
