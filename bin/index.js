@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const request = require('request');
 const cheerio = require('cheerio');
-const Table = require('cli-table2');
+const Table = require('cli-table3');
 
 const trilliumUrl = 'http://www.trilliumbrewing.com';
 const requestOpts = {
