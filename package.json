@@ -1,6 +1,6 @@
 {
   "name": "trillium",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "cli app that displays which cans are available at Trillium Brewery locations",
   "engines": {
     "node": ">=6.9"
