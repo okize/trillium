@@ -5,20 +5,20 @@ const request = require('request');
 const cheerio = require('cheerio');
 const Table = require('cli-table3');
 
-const trilliumUrl = 'http://www.trilliumbrewing.com';
+const TRILLIUM_WEBSITE_URL = 'http://www.trilliumbrewing.com';
 const requestOpts = {
   headers: { 'User-Agent': 'request' },
 };
 
-const formatBackupBeerName = (name) => {
-  const formattedName = name
+const normalizeBackupBeerName = (name) => {
+  const normalizedName = name
     .replace(/trillium/ig, '') // remove `trillium`
     .replace(/_|-/g, ' ') // replace hyphens and underscores with spaces
     .replace('.', '') // remove period
     .replace(/gif|png|jpg|jpeg/ig, ' ') // remove image file extensions
     .trim(); // remove leading whitespace
 
-  return formattedName;
+  return normalizedName;
 };
 
 const getBeerName = ($el) => {
@@ -29,7 +29,7 @@ const getBeerName = ($el) => {
     return name;
   }
   if (backupName.length) {
-    return formatBackupBeerName(backupName);
+    return normalizeBackupBeerName(backupName);
   }
   return 'Unknown beer name';
 };
@@ -45,16 +45,30 @@ const getBeerPrice = ($el) => {
   return null;
 };
 
+const getBeerDescriptionUrl = ($el) => {
+  const description = $el.find('.summary-thumbnail-container');
+  const path = description.attr('href');
+  const url = `${TRILLIUM_WEBSITE_URL}${path}`;
+  return url;
+};
+
+const getBeerImageUrl = ($el) => {
+  const image = $el.find('.summary-thumbnail-image');
+  const imageUrl = image.data('src');
+  return imageUrl;
+};
+
 const getBeerData = ($beerList) => {
   const beers = _.map($beerList, (beer) => {
     const beerData = {
       name: getBeerName($(beer)),
       price: getBeerPrice($(beer)),
+      url: getBeerDescriptionUrl($(beer)),
+      image: getBeerImageUrl($(beer)),
     };
     return beerData;
   });
   const onlyCannedBeers = beers.filter(beer => beer.price !== null);
-
   return _.sortBy(onlyCannedBeers, 'name');
 };
 
@@ -93,4 +107,4 @@ const parseTrilliumWebsite = (error, response, body) => {
   return renderAvailabilityTable([['Fort Point', $fortPointBeerList], ['Canton', $cantonBeerList]]);
 };
 
-request(trilliumUrl, requestOpts, parseTrilliumWebsite);
+request(TRILLIUM_WEBSITE_URL, requestOpts, parseTrilliumWebsite);
