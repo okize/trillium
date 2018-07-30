@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "cli app that displays which cans are available at Trillium Brewery locations",
   "engines": {
-    "node": ">=6.9"
+    "node": ">=8.0"
   },
   "main": "./bin/index.js",
   "bin": {
