@@ -10,59 +10,59 @@ const requestOpts = {
   headers: { 'User-Agent': 'request' },
 };
 
+const getBeerPrice = ($el) => {
+  const description = $el.find('.summary-metadata-container--below-content').text();
+  const re = /\$.* for 4-pack/i;
+  const hasCans = description.match(re);
+
+  if (hasCans) {
+    return hasCans[0].replace(' for 4-pack', '');
+  }
+  return null;
+};
+
+const getBeerName = $el => $el.find('.summary-thumbnail-container').data('title');
+
+const getBeerData = ($beerList) => {
+  const beers = _.map($beerList, (beer) => {
+    const beerData = {
+      name: getBeerName($(beer)),
+      price: getBeerPrice($(beer)),
+    };
+    return beerData;
+  });
+  const onlyCannedBeers = beers.filter(beer => beer.price !== null);
+
+  return _.sortBy(onlyCannedBeers, 'name');
+};
+
+const renderAvailabilityTable = (locations) => {
+  const table = new Table({
+    head: ['Location', '', 'Name', '4-pack Price'],
+  });
+
+  locations.forEach(([locationLabel, html]) => {
+    const data = getBeerData(html);
+    const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
+
+    data.forEach(({ name, price }, i) => {
+      if (i === 0) {
+        table.push([header, i + 1, name, price]);
+      } else {
+        table.push([i + 1, name, price]);
+      }
+    });
+  });
+
+  console.log(table.toString());
+};
+
 const parseTrilliumWebsite = (error, response, body) => {
   if (error) {
     return console.error(error);
   }
 
-  const $ = cheerio.load(body);
-
-  const getBeerName = $el => $el.find('.summary-thumbnail-container').data('title');
-
-  const getBeerPrice = ($el) => {
-    const description = $el.find('.summary-metadata-container--below-content').text();
-    const re = /\$.* for 4-pack/i;
-    const hasCans = description.match(re);
-
-    if (hasCans) {
-      return hasCans[0].replace(' for 4-pack', '');
-    }
-    return null;
-  };
-
-  const getBeerData = ($beerList) => {
-    const beers = _.map($beerList, (beer) => {
-      const beerData = {
-        name: getBeerName($(beer)),
-        price: getBeerPrice($(beer)),
-      };
-      return beerData;
-    });
-    const onlyCannedBeers = beers.filter(beer => beer.price !== null);
-
-    return _.sortBy(onlyCannedBeers, 'name');
-  };
-
-  const renderAvailabilityTable = (locations) => {
-    const table = new Table({
-      head: ['Location', '', 'Name', '4-pack Price'],
-    });
-
-    locations.forEach(([locationLabel, html]) => {
-      const data = getBeerData(html);
-      const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
-
-      data.forEach(({ name, price }, i) => {
-        if (i === 0) {
-          table.push([header, i + 1, name, price]);
-        } else {
-          table.push([i + 1, name, price]);
-        }
-      });
-    });
-
-    console.log(table.toString());
-  };
+  global.$ = cheerio.load(body);
 
   const $locations = $('.summary-item-list-container');
   const $fortPointBeerList = $('.summary-item', $locations[0]);
