@@ -10,6 +10,30 @@ const requestOpts = {
   headers: { 'User-Agent': 'request' },
 };
 
+const formatBackupBeerName = (name) => {
+  const formattedName = name
+    .replace(/trillium/ig, '') // remove `trillium`
+    .replace(/_|-/g, ' ') // replace hyphens and underscores with spaces
+    .replace('.', '') // remove period
+    .replace(/gif|png|jpg|jpeg/ig, ' ') // remove image file extensions
+    .trim(); // remove leading whitespace
+
+  return formattedName;
+};
+
+const getBeerName = ($el) => {
+  const name = $el.find('.summary-thumbnail-container').data('title');
+  const backupName = $el.find('.summary-thumbnail-container img').attr('alt');
+
+  if (name.length) {
+    return name;
+  }
+  if (backupName.length) {
+    return formatBackupBeerName(backupName);
+  }
+  return 'Unknown beer name';
+};
+
 const getBeerPrice = ($el) => {
   const description = $el.find('.summary-metadata-container--below-content').text();
   const re = /\$.* for 4-pack/i;
@@ -20,8 +44,6 @@ const getBeerPrice = ($el) => {
   }
   return null;
 };
-
-const getBeerName = $el => $el.find('.summary-thumbnail-container').data('title');
 
 const getBeerData = ($beerList) => {
   const beers = _.map($beerList, (beer) => {
