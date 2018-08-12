@@ -45,12 +45,17 @@ const getBeerPrice = ($el) => {
   return null;
 };
 
-const getBeerUrl = ($el) => {
+const getBeerDescriptionUrl = ($el) => {
   const description = $el.find('.summary-thumbnail-container');
   const path = description.attr('href');
   const url = `${TRILLIUM_WEBSITE_URL}${path}`;
-
   return url;
+};
+
+const getBeerImageUrl = ($el) => {
+  const image = $el.find('.summary-thumbnail-image');
+  const imageUrl = image.data('src');
+  return imageUrl;
 };
 
 const getBeerData = ($beerList) => {
@@ -58,12 +63,12 @@ const getBeerData = ($beerList) => {
     const beerData = {
       name: getBeerName($(beer)),
       price: getBeerPrice($(beer)),
-      url: getBeerUrl($(beer)),
+      url: getBeerDescriptionUrl($(beer)),
+      image: getBeerImageUrl($(beer)),
     };
     return beerData;
   });
   const onlyCannedBeers = beers.filter(beer => beer.price !== null);
-
   return _.sortBy(onlyCannedBeers, 'name');
 };
 
