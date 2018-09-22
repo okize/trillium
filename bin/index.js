@@ -107,4 +107,4 @@ const parseTrilliumWebsite = (error, response, body) => {
   return renderAvailabilityTable([['Fort Point', $fortPointBeerList], ['Canton', $cantonBeerList]]);
 };
 
-request(TRILLIUM_WEBSITE_URL, requestOpts, parseTrilliumWebsite);
+request(`${TRILLIUM_WEBSITE_URL}/beers`, requestOpts, parseTrilliumWebsite);
