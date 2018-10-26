@@ -10,7 +10,9 @@
     "trillium": "./bin/index.js"
   },
   "scripts": {
-    "lint": "eslint . && echo \"eslint: no lint errors found\" || true",
+    "lint": "eslint --cache . && echo \"\neslint: no lint errors found\n\"",
+    "lint:fix": "eslint --cache --fix . && echo \"\neslint: fixed as many lint errors as possible\n\"",
+    "lint:watch": "onchange \"./**/*.js\" -i -- yarn lint",
     "start": "node ./bin/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
