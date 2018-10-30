@@ -1,11 +1,14 @@
-# Logs
+# logs
 logs
 *.log
 npm-debug.log*
 
-# Dependency directories
-node_modules
+# dependencies
+node_modules/
 package-lock.json*
 
 # eslint
 .eslintcache
+
+#tests
+coverage/

@@ -14,7 +14,10 @@
     "lint:fix": "eslint --cache --fix . && echo \"\neslint: fixed as many lint errors as possible\n\"",
     "lint:watch": "onchange \"./**/*.js\" -i -- yarn lint",
     "start": "node ./bin/index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:coverage": "yarn test --coverage",
+    "test:ci": "JEST_JUNIT_OUTPUT=./coverage/test-results/test-results.xml jest --ci --collectCoverage --reporters jest-junit",
+    "test:watch": "yarn test --watch"
   },
   "dependencies": {
     "cheerio": "^0.22.0",
