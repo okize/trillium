@@ -35,12 +35,12 @@ const getBeerName = ($el) => {
 };
 
 const getBeerPrice = ($el) => {
-  const description = $el.find('.summary-metadata-container--below-content').text();
-  const re = /\$.* for 4-pack/i;
+  const description = $el.find('.summary-metadata--primary').text();
+  const re = /(\$.*) (per|for) 4-pack/i;
   const hasCans = description.match(re);
 
   if (hasCans) {
-    return hasCans[0].replace(' for 4-pack', '');
+    return hasCans[1];
   }
   return null;
 };
