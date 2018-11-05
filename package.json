@@ -20,7 +20,7 @@
     "test:watch": "yarn test --watch"
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.2",
     "cli-table3": "^0.5.0",
     "lodash": "^4.17.4",
     "request": "^2.79.0"
