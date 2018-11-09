@@ -5,6 +5,7 @@ npm-debug.log*
 
 # dependencies
 node_modules/
+node_modules_offline_cache/
 package-lock.json*
 
 # eslint
