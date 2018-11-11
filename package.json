@@ -9,6 +9,18 @@
   "bin": {
     "trillium": "./bin/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okize/trillium.git"
+  },
+  "bugs": "https://github.com/okize/trillium/issues",
+  "homepage": "https://github.com/okize/trillium/",
+  "author": {
+    "name": "Morgan Wigmanich",
+    "email": "okize123@gmail.com",
+    "url": "https://github.com/okize"
+  },
+  "license": "MIT",
   "scripts": {
     "lint": "eslint --cache . && echo \"\neslint: no lint errors found\n\"",
     "lint:fix": "eslint --cache --fix . && echo \"\neslint: fixed as many lint errors as possible\n\"",
@@ -18,6 +30,20 @@
     "test:coverage": "yarn test --coverage",
     "test:ci": "JEST_JUNIT_OUTPUT=./coverage/test-results/test-results.xml jest --ci --collectCoverage --reporters jest-junit",
     "test:watch": "yarn test --watch"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage",
+    "collectCoverageFrom": [
+      "{bin|src}/**/*.{js}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
@@ -33,17 +59,5 @@
     "jest": "^23.6.0",
     "jest-junit": "^5.2.0",
     "onchange": "^5.0.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/okize/trillium.git"
-  },
-  "bugs": "https://github.com/okize/trillium/issues",
-  "homepage": "https://github.com/okize/trillium/",
-  "author": {
-    "name": "Morgan Wigmanich",
-    "email": "okize123@gmail.com",
-    "url": "https://github.com/okize"
-  },
-  "license": "MIT"
+  }
 }
