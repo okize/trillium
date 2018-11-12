@@ -79,18 +79,27 @@ const renderAvailabilityTable = (locations) => {
 
   locations.forEach(([locationLabel, html]) => {
     const data = getBeerData(html);
-    const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
 
-    data.forEach(({ name, price }, i) => {
-      if (i === 0) {
-        table.push([header, i + 1, name, price]);
-      } else {
-        table.push([i + 1, name, price]);
-      }
-    });
+    if (!data.length) {
+      return null;
+    } else {
+      const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
+
+      data.forEach(({ name, price }, i) => {
+        if (i === 0) {
+          table.push([header, i + 1, name, price]);
+        } else {
+          table.push([i + 1, name, price]);
+        }
+      });
+    }
   });
 
-  console.log(table.toString());
+  if (!table.length) {
+    throw new Error('Something went wrong and no beers were discovered');
+  }
+
+  return console.log(table.toString());
 };
 
 const parseTrilliumWebsite = (error, response, body) => {
