@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const _ = require('lodash');
 const request = require('request');
 const cheerio = require('cheerio');
 const Table = require('cli-table3');
+
+const {
+  getBeerImageUrl,
+  getBeerCanPrice,
+} = require('../src/parser');
 
 const TRILLIUM_WEBSITE_URL = 'http://www.trilliumbrewing.com';
 const requestOpts = {
@@ -52,17 +58,11 @@ const getBeerDescriptionUrl = ($el) => {
   return url;
 };
 
-const getBeerImageUrl = ($el) => {
-  const image = $el.find('.summary-thumbnail-image');
-  const imageUrl = image.data('src');
-  return imageUrl;
-};
-
 const getBeerData = ($beerList) => {
   const beers = _.map($beerList, (beer) => {
     const beerData = {
       name: getBeerName($(beer)),
-      price: getBeerPrice($(beer)),
+      price: getBeerCanPrice($(beer)),
       url: getBeerDescriptionUrl($(beer)),
       image: getBeerImageUrl($(beer)),
     };
@@ -82,17 +82,16 @@ const renderAvailabilityTable = (locations) => {
 
     if (!data.length) {
       return null;
-    } else {
-      const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
-
-      data.forEach(({ name, price }, i) => {
-        if (i === 0) {
-          table.push([header, i + 1, name, price]);
-        } else {
-          table.push([i + 1, name, price]);
-        }
-      });
     }
+    const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
+
+    data.forEach(({ name, price }, i) => {
+      if (i === 0) {
+        table.push([header, i + 1, name, price]);
+      } else {
+        table.push([i + 1, name, price]);
+      }
+    });
   });
 
   if (!table.length) {
@@ -109,11 +108,36 @@ const parseTrilliumWebsite = (error, response, body) => {
 
   global.$ = cheerio.load(body);
 
-  const $locations = $('.summary-item-list-container');
+  const $locations = $('.summary-item-list');
   const $fortPointBeerList = $('.summary-item', $locations[0]);
   const $cantonBeerList = $('.summary-item', $locations[1]);
 
   return renderAvailabilityTable([['Fort Point', $fortPointBeerList], ['Canton', $cantonBeerList]]);
 };
 
-request(`${TRILLIUM_WEBSITE_URL}/beers`, requestOpts, parseTrilliumWebsite);
+// fs.readFile('./test/fixtures/trillium_beer_2018_10_18.html', 'utf8', (err, data) => {
+//   if (err) { throw err };
+//   // parseTrilliumWebsite(err, null, data);
+//   console.log(data)
+// });
+
+// request(`${TRILLIUM_WEBSITE_URL}/beers`, requestOpts, parseTrilliumWebsite);
+
+const { promisify } = require('util');
+
+const readFile = promisify(fs.readFile);
+
+// readFile('./test/fixtures/trillium_beer_2018_10_18.html', 'utf8').then((data) => {
+//   console.log(data);
+// }).catch((error) => {
+//   console.log(error);
+// });
+
+(async function fetchTrilliumWebsite() {
+  try {
+    const data = await readFile('./test/fixtures/trillium_beer_2018_10_18.html', 'utf8');
+    parseTrilliumWebsite(null, null, data);
+  } catch (error) {
+    console.error(error);
+  }
+}());

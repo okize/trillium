@@ -4,6 +4,7 @@ const $ = require('cheerio');
 
 const {
   getBeerImageUrl,
+  getBeerCanPrice,
 } = require('../src/parser');
 
 
@@ -54,6 +55,21 @@ describe('parser', () => {
 
     it('exects a cheerio objct', () => {
       expect(() => { getBeerImageUrl(imageHtml); }).toThrowError();
+    });
+  });
+
+  describe('getBeerPrice', () => {
+    const imageHtml = `
+      <span class="summary-metadata-item summary-metadata-item--tags">
+      <a href="/trillium-beers-fort-point/?tag=1+case+limit+per+person+%28%2422.20+per+4-pack%29">
+      1 case limit per person ($22.20 per 4-pack)
+      </a>
+      </span>
+    `;
+
+
+    it('returns an image url', () => {
+      expect(getBeerImageUrl($imageHtml)).toBe('http://example.com/image.jpg');
     });
   });
 });
