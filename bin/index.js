@@ -77,22 +77,22 @@ const renderAvailabilityTable = (locations) => {
     head: ['Location', '', 'Name', '4-pack Price'],
   });
 
+  // eslint-disable-next-line consistent-return
   locations.forEach(([locationLabel, html]) => {
     const data = getBeerData(html);
 
     if (!data.length) {
       return null;
-    } else {
-      const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
-
-      data.forEach(({ name, price }, i) => {
-        if (i === 0) {
-          table.push([header, i + 1, name, price]);
-        } else {
-          table.push([i + 1, name, price]);
-        }
-      });
     }
+    const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
+
+    data.forEach(({ name, price }, i) => {
+      if (i === 0) {
+        table.push([header, i + 1, name, price]);
+      } else {
+        table.push([i + 1, name, price]);
+      }
+    });
   });
 
   if (!table.length) {
