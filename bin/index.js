@@ -68,7 +68,7 @@ const getBeerData = ($beerList) => {
     };
     return beerData;
   });
-  const onlyCannedBeers = beers.filter(beer => beer.price !== null);
+  const onlyCannedBeers = beers.filter((beer) => beer.price !== null);
   return _.sortBy(onlyCannedBeers, 'name');
 };
 
