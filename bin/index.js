@@ -12,10 +12,10 @@ const requestOpts = {
 
 const normalizeBackupBeerName = (name) => {
   const normalizedName = name
-    .replace(/trillium/ig, '') // remove `trillium`
+    .replace(/trillium/gi, '') // remove `trillium`
     .replace(/_|-/g, ' ') // replace hyphens and underscores with spaces
     .replace('.', '') // remove period
-    .replace(/gif|png|jpg|jpeg/ig, ' ') // remove image file extensions
+    .replace(/gif|png|jpg|jpeg/gi, ' ') // remove image file extensions
     .trim(); // remove leading whitespace
 
   return normalizedName;
