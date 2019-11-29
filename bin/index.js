@@ -113,7 +113,10 @@ const parseTrilliumWebsite = (error, response, body) => {
   const $fortPointBeerList = $('.summary-item', $locations[0]);
   const $cantonBeerList = $('.summary-item', $locations[1]);
 
-  return renderAvailabilityTable([['Fort Point', $fortPointBeerList], ['Canton', $cantonBeerList]]);
+  return renderAvailabilityTable([
+    ['Fort Point', $fortPointBeerList],
+    ['Canton', $cantonBeerList],
+  ]);
 };
 
 request(`${TRILLIUM_WEBSITE_URL}/beers`, requestOpts, parseTrilliumWebsite);
