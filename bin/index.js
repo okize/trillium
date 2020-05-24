@@ -84,7 +84,11 @@ const renderAvailabilityTable = (locations) => {
     if (!data.length) {
       return null;
     }
-    const header = { rowSpan: data.length, content: locationLabel, vAlign: 'center' };
+    const header = {
+      rowSpan: data.length,
+      content: locationLabel,
+      vAlign: 'center',
+    };
 
     data.forEach(({ name, price }, i) => {
       if (i === 0) {
