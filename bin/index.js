@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 const _ = require('lodash');
-const request = require('request');
+const axios = require('axios');
 const cheerio = require('cheerio');
 const Table = require('cli-table3');
 
 const TRILLIUM_WEBSITE_URL = 'http://www.trilliumbrewing.com';
-const requestOpts = {
-  headers: { 'User-Agent': 'request' },
+const config = {
+  headers: { 'User-Agent': 'axios' },
 };
 
 const normalizeBackupBeerName = (name) => {
@@ -106,21 +106,24 @@ const renderAvailabilityTable = (locations) => {
   return console.log(table.toString());
 };
 
-const parseTrilliumWebsite = (error, response, body) => {
-  if (error) {
+const parseTrilliumWebsite = async (url) => {
+  try {
+    const response = await axios.get(url);
+    const { data } = response;
+
+    global.$ = cheerio.load(data);
+
+    const $locations = $('.summary-item-list-container');
+    const $fortPointBeerList = $('.summary-item', $locations[0]);
+    const $cantonBeerList = $('.summary-item', $locations[1]);
+
+    return renderAvailabilityTable([
+      ['Fort Point', $fortPointBeerList],
+      ['Canton', $cantonBeerList],
+    ]);
+  } catch (error) {
     return console.error(error);
   }
-
-  global.$ = cheerio.load(body);
-
-  const $locations = $('.summary-item-list-container');
-  const $fortPointBeerList = $('.summary-item', $locations[0]);
-  const $cantonBeerList = $('.summary-item', $locations[1]);
-
-  return renderAvailabilityTable([
-    ['Fort Point', $fortPointBeerList],
-    ['Canton', $cantonBeerList],
-  ]);
 };
 
-request(`${TRILLIUM_WEBSITE_URL}/beers`, requestOpts, parseTrilliumWebsite);
+parseTrilliumWebsite(`${TRILLIUM_WEBSITE_URL}/beers`, {}, config);
