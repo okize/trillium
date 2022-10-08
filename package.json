@@ -46,7 +46,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.25.0",
+    "axios": "^1.0.0",
     "cheerio": "^1.0.0-rc.12",
     "cli-table3": "^0.6.3",
     "lodash": "^4.17.4"
