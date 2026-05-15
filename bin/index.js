@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 
 const _ = require('lodash');
-const axios = require('axios');
 const cheerio = require('cheerio');
 const Table = require('cli-table3');
 
 const TRILLIUM_WEBSITE_URL = 'http://www.trilliumbrewing.com';
-const config = {
-  headers: { 'User-Agent': 'axios' },
-};
 
 const normalizeBackupBeerName = (name) => {
   const normalizedName = name
@@ -108,8 +104,8 @@ const renderAvailabilityTable = (locations) => {
 
 const parseTrilliumWebsite = async (url) => {
   try {
-    const response = await axios.get(url);
-    const { data } = response;
+    const response = await fetch(url);
+    const data = await response.text();
 
     global.$ = cheerio.load(data);
 
@@ -126,4 +122,4 @@ const parseTrilliumWebsite = async (url) => {
   }
 };
 
-parseTrilliumWebsite(`${TRILLIUM_WEBSITE_URL}/beers`, {}, config);
+parseTrilliumWebsite(`${TRILLIUM_WEBSITE_URL}/beers`);
