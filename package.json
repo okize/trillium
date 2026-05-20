@@ -6,9 +6,7 @@
     "node": ">=8.0"
   },
   "main": "./bin/index.js",
-  "bin": {
-    "trillium": "./bin/index.js"
-  },
+  "bin": "./bin/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/okize/trillium.git"
@@ -60,6 +58,6 @@
     "jest": "^30.3.0",
     "jest-junit": "^16.0.0",
     "onchange": "^7.0.0",
-    "prettier": "^2.5.1"
+    "prettier": "^3.8.1"
   }
 }
