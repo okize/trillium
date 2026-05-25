@@ -73,7 +73,6 @@ const renderAvailabilityTable = (locations) => {
     head: ['Location', '', 'Name', '4-pack Price'],
   });
 
-  // eslint-disable-next-line consistent-return
   locations.forEach(([locationLabel, html]) => {
     const data = getBeerData(html);
 
