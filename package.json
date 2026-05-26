@@ -44,13 +44,13 @@
     }
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.12",
-    "cli-table3": "^0.6.3",
-    "lodash": "^4.17.4"
+    "cheerio": "^1.2.0",
+    "cli-table3": "^0.6.5",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
-    "eslint": "^9.39.4",
+    "eslint": "^10.1.0",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-jest": "^28.14.0",
     "eslint-plugin-prettier": "^5.5.5",
